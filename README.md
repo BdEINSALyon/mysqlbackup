@@ -1,6 +1,6 @@
-# PGBackup
+# MySQLBackup
 
-Backup script written in Python to dump a postgres database and upload it to a FTP
+Backup script written in Python to dump a mysql database and upload it to a FTP
 
 ## Usage
 
@@ -34,4 +34,5 @@ A Docker image `bdeinsalyon/pgbackup` is also available
 This script is given under MIT License.
 ```
 © 2017, Philippe VIENNE
+© 2018, François LALLEVÉ
 ```
