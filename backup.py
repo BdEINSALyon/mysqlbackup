@@ -34,7 +34,7 @@ def backup_front_name(database):
 def backup_name(database):
     now = datetime.now()
     now = now.replace(microsecond=0)
-    return backup_front_name(database) + '-' + now.isoformat() + ".mysql"
+    return backup_front_name(database) + '-' + now.isoformat() + ".sql"
 
 
 def backup(database, ftp, mysqldump):
