@@ -1,16 +1,19 @@
-FROM python:3.6
+FROM python:3
 
-RUN wget https://get.enterprisedb.com/postgresql/postgresql-10.1-3-linux-x64-binaries.tar.gz &&\
-    tar xf postgresql-10.1-3-linux-x64-binaries.tar.gz &&\
-    rm -rf postgresql-10.1-3-linux-x64-binaries.tar.gz pgsql/pgAdmin\ 4
+RUN apt-get update -y && apt-get dist-upgrade -y && apt-get autoremove --purge -y && apt-get autoclean -y
+
+RUN wget https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.23-linux-glibc2.12-x86_64.tar.gz &&\
+    tar xf mysql-5.7.23-linux-glibc2.12-x86_64.tar.gz &&\
+    rm -rf mysql-5.7.23-linux-glibc2.12-x86_64.tar.gz &&\
+    mv mysql-5.7.23-linux-glibc2.12-x86_64 mysql
 
 WORKDIR /backup
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-ENV PG_DUMP_COMMAND /pgsql/bin/pg_dump
-ENV DATABASE_URL postgres://postgres@localhost/postgres
+ENV MYSQLDUMP_COMMAND /mysql/bin/mysqldump
+ENV DATABASE_URL mysql://mysql@localhost/mysql
 ENV FTP_URL ftp://backup:password@backup.network/backups/mydb
 VOLUME /tmp
 

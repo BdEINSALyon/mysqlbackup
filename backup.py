@@ -11,12 +11,12 @@ root = logging.getLogger()
 root.setLevel(logging.INFO)
 
 p = configargparse.ArgumentParser()
-p.add('--db', required=True, help='database url (e.g. postgres://postgres@localhost/db)',
+p.add('--db', required=True, help='database url (e.g. mysql://mysql@localhost/db)',
       env_var='DATABASE_URL')
 p.add('--ftp', required=True, help='FTP url (e.g. ftp://backup:password@backup.network/backups/mydb)',
       env_var='FTP_URL')
-p.add('--pgdump', required=False, help='pg_dump path command',
-      env_var='PG_DUMP_COMMAND', default='pg_dump')
+p.add('--mysqldump', required=False, help='mysqldump path command',
+      env_var='MYSQLDUMP_COMMAND', default='mysqldump')
 p.add('--max', required=False, help='maximum count of backups',
       env_var='MAX_FILES', default=5)
 p.add('--name', required=False, help='backup name',
@@ -37,12 +37,13 @@ def backup_name(database):
     return backup_front_name(database) + '-' + now.isoformat() + ".psql"
 
 
-def backup(database, ftp, pgdump):
+def backup(database, ftp, mysqldump):
     logging.info('Starting backup')
     name = backup_name(database)
     path = '/tmp/' + name
     logging.info('Backup database to {}'.format(path))
-    s.bash('-c', '"'+' '.join([pgdump, '-d', database]) + '"').redirect(
+    db = dj_database_url.parse(database)
+    s.bash('-c', '"'+' '.join([mysqldump, '-u', db['USER'], '-p', db['PASSWORD'], '-h', db['HOST'], '-P', db['PORT'], db['NAME']]) + '"').redirect(
         path,
         append=False,
         stdout=True,
@@ -79,4 +80,4 @@ def backup(database, ftp, pgdump):
 
 
 if __name__ == '__main__':
-    backup(options.db, options.ftp, options.pgdump)
+    backup(options.db, options.ftp, options.mysqldump)
