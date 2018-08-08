@@ -43,7 +43,7 @@ def backup(database, ftp, mysqldump):
     path = '/tmp/' + name
     logging.info('Backup database to {}'.format(path))
     db = dj_database_url.parse(database)
-    s.bash('-c', '"'+' '.join([mysqldump, '-u', db['USER'], '-p', db['PASSWORD'], '-h', db['HOST'], '-P', db['PORT'], db['NAME']]) + '"').redirect(
+    s.bash('-c', '"'+' '.join([mysqldump, '-u', db['USER'], '-p', db['PASSWORD'], '-h', db['HOST'], '-P', str(db['PORT']), db['NAME']]) + '"').redirect(
         path,
         append=False,
         stdout=True,
