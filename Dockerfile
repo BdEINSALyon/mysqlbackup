@@ -2,10 +2,10 @@ FROM python:3
 
 RUN apt-get update -y && apt-get dist-upgrade -y && apt-get autoremove --purge -y && apt-get autoclean -y
 
-RUN wget https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.23-linux-glibc2.12-x86_64.tar.gz &&\
-    tar xf mysql-5.7.23-linux-glibc2.12-x86_64.tar.gz &&\
-    rm -rf mysql-5.7.23-linux-glibc2.12-x86_64.tar.gz &&\
-    mv mysql-5.7.23-linux-glibc2.12-x86_64 mysql
+RUN wget https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.25-linux-glibc2.12-x86_64.tar.gz &&\
+    tar xf mysql-5.7.25-linux-glibc2.12-x86_64.tar.gz &&\
+    rm -rf mysql-5.7.25-linux-glibc2.12-x86_64.tar.gz &&\
+    mv mysql-5.7.25-linux-glibc2.12-x86_64 mysql
 
 WORKDIR /backup
 
